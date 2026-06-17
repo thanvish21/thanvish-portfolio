@@ -1,0 +1,46 @@
+name: Site checks
+
+# Runs on every push & PR, plus a daily scheduled sweep.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: "17 6 * * *"   # daily 06:17 UTC health check
+  workflow_dispatch:        # allow manual runs from the Actions tab
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Extract inline JS and check syntax
+        run: |
+          awk '/<script>/{f=1;next} /<\/script>/{f=0} f' index.html > /tmp/inline.js
+          if [ -s /tmp/inline.js ]; then
+            node --check /tmp/inline.js && echo "✓ Inline JS syntax OK"
+          else
+            echo "No inline JS found to check"; fi
+
+      - name: Basic HTML structure checks
+        run: |
+          set -e
+          grep -q "<!DOCTYPE html>" index.html && echo "✓ doctype present"
+          grep -q "</html>" index.html && echo "✓ closing html tag present"
+          opens=$(grep -o "<script" index.html | wc -l)
+          closes=$(grep -o "</script>" index.html | wc -l)
+          echo "script tags: $opens open / $closes close"
+          [ "$opens" -eq "$closes" ] && echo "✓ script tags balanced" || (echo "✗ unbalanced script tags" && exit 1)
+
+      - name: Check for leftover placeholders
+        run: |
+          if grep -q "91XXXXXXXXXX" index.html; then
+            echo "::warning::WhatsApp number is still the placeholder (91XXXXXXXXXX)"; fi
+          if grep -q "dQw4w9WgXcQ" index.html; then
+            echo "::warning::Placeholder video ID still present"; fi
+          echo "Placeholder scan complete"

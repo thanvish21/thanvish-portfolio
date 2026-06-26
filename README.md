@@ -11,6 +11,3 @@ All content lives in the `DATA = { }` block near the bottom of `index.html`. Cha
 
 ## Deploy
 Static site — deploys on Vercel / GitHub Pages / Netlify with zero config.
-
----
-Built with Claude.

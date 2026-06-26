@@ -527,38 +527,6 @@
     background-image:linear-gradient(135deg, rgb(var(--accent)/.16), rgb(var(--accent2)/.12)); }
 
   @media (prefers-reduced-motion: reduce) { #crt::before, .status-dot { animation:none !important; } }
-
-  /* ── FLOATING CLAUDE LOGO (reacts to cursor) ───────────────────── */
-  #claude-badge {
-    position:fixed; right:22px; bottom:22px; z-index:90;
-    width:56px; height:56px; padding:0; border:0; cursor:pointer;
-    display:flex; align-items:center; justify-content:center;
-    background:rgb(var(--panel)/.7); border:1px solid rgb(var(--line));
-    border-radius:50%; backdrop-filter:blur(8px);
-    transition:transform .25s cubic-bezier(.22,1,.36,1), box-shadow .25s ease, background .3s ease;
-    will-change:transform;
-  }
-  #claude-badge svg { width:34px; height:34px; display:block; transition:transform .3s ease; }
-  #claude-badge:hover { box-shadow:0 0 0 1px rgba(217,119,87,.5), 0 8px 30px -8px rgba(217,119,87,.7); background:rgb(var(--panel)/.95); }
-  #claude-badge:hover svg #claude-burst { animation:claude-spin 9s linear infinite; transform-origin:50% 50%; }
-  #claude-badge:active { transform:scale(.9) !important; }
-  #claude-badge.pulse svg #claude-burst { animation:claude-pop .6s ease; transform-origin:50% 50%; }
-  @keyframes claude-spin { to { transform:rotate(360deg); } }
-  @keyframes claude-pop { 0%{ transform:scale(1) rotate(0); } 45%{ transform:scale(1.18) rotate(90deg); } 100%{ transform:scale(1) rotate(180deg); } }
-  /* idle breathing */
-  #claude-badge svg #claude-burst { animation:claude-breathe 4.5s ease-in-out infinite; transform-origin:50% 50%; }
-  @keyframes claude-breathe { 0%,100%{ transform:scale(1); } 50%{ transform:scale(1.06); } }
-  #claude-badge-tip {
-    position:absolute; right:64px; top:50%; transform:translateY(-50%) translateX(6px);
-    white-space:nowrap; font-family:'JetBrains Mono',monospace; font-size:11px;
-    color:rgb(var(--fg)); background:rgb(var(--panel)/.95); border:1px solid rgb(var(--line));
-    padding:5px 10px; border-radius:8px; opacity:0; pointer-events:none; transition:opacity .25s ease, transform .25s ease;
-  }
-  #claude-badge:hover #claude-badge-tip { opacity:1; transform:translateY(-50%) translateX(0); }
-  @media (max-width:640px){ #claude-badge{ width:46px; height:46px; right:14px; bottom:14px; } #claude-badge svg{ width:28px; height:28px; } #claude-badge-tip{ display:none; } }
-  @media (prefers-reduced-motion: reduce) {
-    #claude-badge svg #claude-burst, #claude-badge:hover svg #claude-burst { animation:none !important; }
-  }
 </style>
 </head>
 
@@ -571,38 +539,6 @@
 <div id="crt"></div>
 <canvas id="matrix-fx"></canvas>
 <div id="proj-modal"></div>
-
-<!-- ░░░░ FLOATING CLAUDE LOGO (reacts to cursor) ░░░░ -->
-<button id="claude-badge" title="Built with Claude" aria-label="Built with Claude">
-  <svg viewBox="0 0 100 100" aria-hidden="true">
-    <g id="claude-burst" fill="#D97757">
-      <!-- Claude sunburst: tapered spokes radiating from centre -->
-      <path d="M50 4 L53.4 38.5 Q50 41 46.6 38.5 Z"/>
-      <path d="M50 96 L46.6 61.5 Q50 59 53.4 61.5 Z"/>
-      <path d="M4 50 L38.5 46.6 Q41 50 38.5 53.4 Z"/>
-      <path d="M96 50 L61.5 53.4 Q59 50 61.5 46.6 Z"/>
-      <g transform="rotate(45 50 50)">
-        <path d="M50 9 L52.8 39 Q50 41.2 47.2 39 Z"/>
-        <path d="M50 91 L47.2 61 Q50 58.8 52.8 61 Z"/>
-        <path d="M9 50 L39 47.2 Q41.2 50 39 52.8 Z"/>
-        <path d="M91 50 L61 52.8 Q58.8 50 61 47.2 Z"/>
-      </g>
-      <g transform="rotate(22.5 50 50)">
-        <path d="M50 13 L52.4 39.5 Q50 41.4 47.6 39.5 Z"/>
-        <path d="M50 87 L47.6 60.5 Q50 58.6 52.4 60.5 Z"/>
-        <path d="M13 50 L39.5 47.6 Q41.4 50 39.5 52.4 Z"/>
-        <path d="M87 50 L60.5 52.4 Q58.6 50 60.5 47.6 Z"/>
-      </g>
-      <g transform="rotate(67.5 50 50)">
-        <path d="M50 13 L52.4 39.5 Q50 41.4 47.6 39.5 Z"/>
-        <path d="M50 87 L47.6 60.5 Q50 58.6 52.4 60.5 Z"/>
-        <path d="M13 50 L39.5 47.6 Q41.4 50 39.5 52.4 Z"/>
-        <path d="M87 50 L60.5 52.4 Q58.6 50 60.5 47.6 Z"/>
-      </g>
-    </g>
-  </svg>
-  <span id="claude-badge-tip">built with Claude</span>
-</button>
 
 <!-- ░░░░ MATRIX INTRO OVERLAY ░░░░ -->
 <div id="intro">
@@ -1145,26 +1081,6 @@ const DATA = {
   if (sessionStorage.getItem("introSeen")){ clearInterval(rainTimer); intro.remove();
     const n = sessionStorage.getItem("visitorName");
     if (n){ $("hero-greet").textContent = `// welcome back, ${n} 👋`; $("hero-greet").classList.remove("hidden"); }
-  }
-
-  // ---- FLOATING CLAUDE LOGO (cursor-reactive) ----
-  const badge = $("claude-badge");
-  if (badge) {
-    if (!prefersReduced) {
-      addEventListener("mousemove", (e) => {
-        const r = badge.getBoundingClientRect();
-        const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
-        const dx = (e.clientX - cx) / 26, dy = (e.clientY - cy) / 26;
-        const clamp = (v) => Math.max(-8, Math.min(8, v));
-        badge.style.transform = `translate(${clamp(dx)}px, ${clamp(dy)}px) rotate(${clamp(dx)}deg)`;
-      }, { passive: true });
-      addEventListener("mouseout", () => { badge.style.transform = ""; });
-    }
-    badge.addEventListener("click", () => {
-      badge.classList.remove("pulse"); void badge.offsetWidth; badge.classList.add("pulse");
-      if (typeof matrixBurst === "function") matrixBurst(2200);
-      if (typeof playConfirm === "function") playConfirm();
-    });
   }
 
   // ---- ANIMATED PARTICLE BACKGROUND (constellation) ----

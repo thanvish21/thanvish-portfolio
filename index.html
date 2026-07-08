@@ -386,11 +386,15 @@
     display:flex; flex-direction:column; gap:12px;
   }
   .section-dot {
-    width:10px; height:10px; border-radius:999px; border:1px solid rgb(var(--line));
+    /* 24x24 touch target (WCAG 2.5.8); visual dot drawn via ::before */
+    width:24px; height:24px; display:flex; align-items:center; justify-content:center;
+  }
+  .section-dot::before {
+    content:""; width:10px; height:10px; border-radius:999px; border:1px solid rgb(var(--line));
     background:rgb(var(--panel) / .65); box-shadow:0 0 0 0 rgb(var(--accent) / 0);
     transition:transform .3s ease, background .3s ease, border-color .3s ease, box-shadow .3s ease;
   }
-  .section-dot.active {
+  .section-dot.active::before {
     background:rgb(var(--accent)); border-color:rgb(var(--accent));
     transform:scale(1.22); box-shadow:0 0 0 6px rgb(var(--accent) / .12);
   }
@@ -483,6 +487,9 @@
     font-family:'JetBrains Mono',monospace; font-size:.85rem;
   }
   .mac-dot, .win-min, .win-max, .win-close { cursor:pointer; transition:transform .15s; }
+  /* 24x24 touch target (WCAG 2.5.8): pad hit area, paint only the 12px dot */
+  .mac-dot { padding:6px; box-sizing:content-box; background-clip:content-box; }
+  .chrome-mac { gap:0 !important; }
   .mac-dot:hover { transform:scale(1.28); }
   #hero-terminal.term-min .term-body { display:none; }
   #hero-terminal.term-max {

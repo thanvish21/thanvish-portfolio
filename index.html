@@ -280,10 +280,10 @@
     border-radius: 100px; border: none;
     text-decoration: none;
     transition: opacity 0.2s, box-shadow 0.2s;
-    box-shadow: 0 0 20px rgba(232,255,25,0.25);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.35);
     position:relative; overflow:hidden;
   }
-  .btn-acid:hover { opacity: 0.9; box-shadow: 0 0 36px rgba(232,255,25,0.45); }
+  .btn-acid:hover { opacity: 0.9; }
   .btn-acid::after {
     content:""; position:absolute; inset:-120% auto -120% -35%; width:38%;
     background:linear-gradient(90deg, transparent, rgba(255,255,255,.7), transparent);
@@ -367,7 +367,6 @@
   #intro-meter-fill {
     width:0%; height:100%;
     background:linear-gradient(90deg, rgba(57,255,20,.5), rgba(57,255,20,1));
-    box-shadow:0 0 22px rgba(57,255,20,.55);
   }
   #intro-box input {
     width:100%; background:#000; border:1px solid #0f05; border-radius:6px;
@@ -809,7 +808,6 @@ const DATA = {
   books: [
     { title:"The Art of Being Alone", author:"Renuka Gavrani" },
     { title:"Ikigai",                 author:"García & Miralles" },
-    { title:"Add another book",       author:"Author name" },
   ],
 
   // 🎬 YouTube videos  (replace each `id` with a real YouTube video ID)

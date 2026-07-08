@@ -2,6 +2,8 @@
 
 Personal portfolio & resume of **M V Thanvish Reddy** — a terminal/hacker-themed, single-file site with an interactive command-line, Matrix intro, three OS themes (macOS · Windows · Paper), live metrics, synthesized cyber sound, and calm scroll motion.
 
+**Live:** https://thanvish-portfolio.vercel.app/ · Lighthouse 100 (Accessibility · Best Practices · SEO, desktop + mobile)
+
 ## Tech
 - Single self-contained `index.html` (HTML + Tailwind via CDN + vanilla JS + Canvas 2D + Web Audio)
 - No build step — open the file or deploy as a static site.

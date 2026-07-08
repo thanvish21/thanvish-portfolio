@@ -19,7 +19,7 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 <script src="https://unpkg.com/split-type"></script>
@@ -83,9 +83,8 @@
   html.paper #about h3, html.paper #skills h3, html.paper #projects h3,
   html.paper #education h3, html.paper #interests h3, html.paper #contact h3,
   html.paper #emergency h3 {
-    font-family:'Fraunces', Georgia, serif !important;
+    font-family:'Crimson Pro', Georgia, serif !important;
     font-weight:500; letter-spacing:-0.015em;
-    font-variation-settings:'SOFT' 0, 'WONK' 0; font-optical-sizing:auto;
   }
   html.paper .neon { text-shadow:none !important; }      /* no glow in calm theme */
   html.paper .card-hover, html.paper .metric, html.paper #hero-terminal { box-shadow:var(--shadow, 0 1px 2px rgba(61,57,41,.05)) !important; }
@@ -374,12 +373,12 @@
     width:100%; background:#000; border:1px solid #0f05; border-radius:6px;
     padding:8px 10px; margin-top:6px; outline:none; caret-color:#39ff14;
   }
-  #intro-box input:focus { border-color:#39ff14; box-shadow:0 0 0 2px #39ff1430; }
+  #intro-box input:focus { border-color:#39ff14; outline:2px solid #39ff1430; outline-offset:2px; }
   #intro-box button {
     margin-top:18px; width:100%; padding:10px; border:1px solid #39ff14; border-radius:6px;
     background:#39ff1418; cursor:pointer; font-weight:700; letter-spacing:.05em; transition:.2s;
   }
-  #intro-box button:hover { background:#39ff1430; box-shadow:0 0 20px -4px #39ff14; }
+  #intro-box button:hover { background:#39ff1430; }
   #intro-skip { position:absolute; bottom:20px; right:24px; z-index:2; color:#0f08; font-family:monospace; font-size:12px; cursor:pointer; }
   #section-dots {
     position:fixed; right:18px; top:50%; transform:translateY(-50%); z-index:55;
@@ -657,7 +656,7 @@
 
   <!-- ░░░░ ABOUT ░░░░ -->
   <section id="about" class="py-24 reveal section-shell">
-    <h2 class="font-mono text-accent text-sm mb-2">// 01. about</h2>
+    <h2 class="font-mono text-accent text-sm mb-2">// about</h2>
     <h3 class="text-3xl font-extrabold text-white mb-6">Who I am</h3>
     <div class="grid md:grid-cols-3 gap-8 items-start">
       <p id="about-text" class="md:col-span-2 text-gray-300 leading-relaxed text-lg"></p>
@@ -671,28 +670,28 @@
 
   <!-- ░░░░ SKILLS ░░░░ -->
   <section id="skills" class="py-24 reveal section-shell">
-    <h2 class="font-mono text-accent text-sm mb-2">// 02. skills</h2>
+    <h2 class="font-mono text-accent text-sm mb-2">// skills</h2>
     <h3 class="text-3xl font-extrabold text-white mb-8">Tech I work with</h3>
     <div id="skills-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
   </section>
 
   <!-- ░░░░ PROJECTS ░░░░ -->
   <section id="projects" class="py-24 reveal section-shell">
-    <h2 class="font-mono text-accent text-sm mb-2">// 03. projects</h2>
+    <h2 class="font-mono text-accent text-sm mb-2">// projects</h2>
     <h3 class="text-3xl font-extrabold text-white mb-8">Things I've built</h3>
     <div id="projects-grid" class="grid sm:grid-cols-2 gap-6"></div>
   </section>
 
   <!-- ░░░░ EDUCATION ░░░░ -->
   <section id="education" class="py-24 reveal section-shell">
-    <h2 class="font-mono text-accent text-sm mb-2">// 04. education</h2>
+    <h2 class="font-mono text-accent text-sm mb-2">// education</h2>
     <h3 class="text-3xl font-extrabold text-white mb-8">Education & timeline</h3>
     <div id="edu-list" class="relative pl-8 space-y-10"></div>
   </section>
 
   <!-- ░░░░ INTERESTS (games + books) ░░░░ -->
   <section id="interests" class="py-24 reveal section-shell">
-    <h2 class="font-mono text-accent text-sm mb-2">// 05. interests</h2>
+    <h2 class="font-mono text-accent text-sm mb-2">// interests</h2>
     <h3 class="text-3xl font-extrabold text-white mb-8">Beyond the code</h3>
     <div class="grid md:grid-cols-2 gap-10">
       <div>
@@ -708,7 +707,7 @@
 
   <!-- ░░░░ CONTACT ░░░░ -->
   <section id="contact" class="py-24 reveal text-center section-shell">
-    <h2 class="font-mono text-accent text-sm mb-2">// 06. contact</h2>
+    <h2 class="font-mono text-accent text-sm mb-2">// contact</h2>
     <h3 class="text-3xl sm:text-4xl font-extrabold text-white mb-4">Let's build something.</h3>
     <p class="text-gray-400 max-w-md mx-auto mb-8">Open to internships, collaborations, and interesting problems. My inbox is always open.</p>
     <a id="contact-email" href="#" class="magnetic inline-block font-mono px-7 py-3 rounded-md bg-accent text-bg font-bold hover:opacity-90 transition">say_hello()</a>
@@ -718,7 +717,7 @@
   <!-- ░░░░ EMERGENCY (whatsapp) — LAST ░░░░ -->
   <section id="emergency" class="pb-24 reveal section-shell">
     <div class="rounded-xl border border-red-500/40 bg-panel p-6 sm:p-8">
-      <h2 class="font-mono text-red-400 text-sm mb-2">// 07. emergency</h2>
+      <h2 class="font-mono text-red-400 text-sm mb-2">// emergency</h2>
       <h3 class="text-2xl font-extrabold text-white mb-2">🆘 Reach me urgently</h3>
       <p class="text-gray-400 text-sm mb-5">Type a message and it'll open WhatsApp directly to my number.</p>
       <textarea id="emg-msg" rows="3" placeholder="What's the emergency?" aria-label="Emergency message to send via WhatsApp"
@@ -899,7 +898,7 @@ const DATA = {
       : `<span class="text-2xl">${g.icon}</span>`;
     return `
     <div class="card-hover stagger-item flex items-center gap-4 rounded-xl border border-line bg-panel p-4"
-         style="transition-delay:${i*90}ms; border-left:3px solid ${g.color}">
+         style="transition-delay:${i*90}ms">
       <div class="w-12 h-12 flex items-center justify-center rounded-lg shrink-0"
            style="background:${g.color}1f">${badge}</div>
       <div><p class="font-bold text-white">${g.name}</p><p class="text-muted font-mono text-xs">${g.tag}</p></div>

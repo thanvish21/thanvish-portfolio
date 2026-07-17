@@ -93,7 +93,6 @@
   html.paper #crt, html.paper #matrix, html.paper #bgfx,
   html.paper #aurora, html.paper #noise, html.paper .grid-bg::before { display:none !important; }
   html.paper .grid-bg { background-image:none !important; }
-  html.paper .float-blob { opacity:.35 !important; }
   html.paper .status-dot { background:rgb(var(--accent)); }
 
   ::selection { background: rgb(var(--accent) / .25); }
@@ -114,7 +113,27 @@
   .motion-safe { will-change: transform, opacity, filter; }
   .split-parent { overflow: clip; }
   .char, .word, .line { will-change: transform, opacity, filter; }
-  .hero-grid { display:grid; gap:28px; align-items:start; }
+  .hero-grid { display:grid; grid-template-columns:minmax(0,1.08fr) minmax(320px,.82fr); gap:28px; align-items:stretch; }
+  .hero-proof {
+    min-height:100%; padding:24px; border:1px solid rgb(var(--line)); border-radius:8px;
+    background:rgb(var(--panel) / .74); box-shadow:0 24px 64px -42px rgba(0,0,0,.9);
+    font-family:'JetBrains Mono',monospace; display:flex; flex-direction:column;
+  }
+  .proof-kicker { display:flex; align-items:center; justify-content:space-between; gap:12px; font-size:11px; text-transform:uppercase; color:rgb(var(--muted)); }
+  .proof-live { color:rgb(var(--accent2)); white-space:nowrap; }
+  .proof-live::before { content:""; display:inline-block; width:7px; height:7px; margin-right:7px; border-radius:999px; background:rgb(var(--accent2)); box-shadow:0 0 12px rgb(var(--accent2) / .65); }
+  .proof-title { margin-top:32px; color:#fff; font-family:Inter,system-ui,sans-serif; font-size:clamp(1.65rem,3vw,2.6rem); font-weight:800; line-height:1.04; }
+  .proof-desc { margin-top:14px; color:#9ca3af; font-size:14px; line-height:1.7; }
+  .proof-flow { margin:26px 0; border-top:1px solid rgb(var(--line)); border-bottom:1px solid rgb(var(--line)); padding:16px 0; display:grid; gap:10px; }
+  .proof-flow-row { display:flex; align-items:center; gap:10px; color:#d1d5db; font-size:12px; }
+  .proof-flow-node { width:22px; height:22px; display:grid; place-items:center; flex:0 0 auto; border:1px solid rgb(var(--line)); border-radius:5px; color:rgb(var(--accent)); font-weight:700; }
+  .proof-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:auto; }
+  .proof-stat { border-left:2px solid rgb(var(--accent2)); padding:2px 0 2px 10px; }
+  .proof-stat b { display:block; color:#fff; font-size:14px; }
+  .proof-stat span { display:block; color:rgb(var(--muted)); font-size:10px; margin-top:4px; text-transform:uppercase; }
+  .proof-link { display:inline-flex; align-items:center; margin-top:24px; color:rgb(var(--accent)); font-size:12px; font-weight:700; }
+  .proof-link:hover { color:#fff; }
+  #hero-role { overflow-wrap:anywhere; }
   .hero-feature-strip {
     margin-top:22px; display:grid; gap:12px;
     grid-template-columns:repeat(3, minmax(0,1fr));
@@ -144,7 +163,12 @@
     color:rgb(var(--bg)); box-shadow:0 0 16px rgb(var(--accent) / .45);
   }
   @media (max-width: 900px) {
+    .hero-grid { grid-template-columns:1fr; }
+    .hero-proof { min-height:auto; }
     .hero-feature-strip { grid-template-columns:1fr; }
+  }
+  @media (max-width: 480px) {
+    #hero-role { font-size:15px; line-height:1.55; }
   }
 
   .reveal { opacity:0; transform:translateY(24px); transition:opacity .7s ease, transform .7s ease; }
@@ -158,9 +182,6 @@
   .reveal-l { opacity:0; transform:translateX(-44px); transition:opacity .8s ease, transform .8s ease; }
   .reveal-r { opacity:0; transform:translateX(44px);  transition:opacity .8s ease, transform .8s ease; }
   .reveal-l.in, .reveal-r.in { opacity:1; transform:none; }
-
-  /* parallax blobs */
-  .float-blob { transition:transform .25s ease-out; will-change:transform; }
 
   /* animated particle background (sits behind all content) */
   #bgfx { position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.55; }
@@ -520,10 +541,6 @@
 
 <!-- ░░░░ HERO ░░░░ -->
 <section id="home" class="relative z-[1] grid-bg min-h-screen flex items-center pt-16 overflow-hidden section-shell">
-  <div class="float-blob absolute -top-32 -right-24 w-96 h-96 bg-accent/10 rounded-full blur-3xl" data-speed="0.25"></div>
-  <div class="float-blob absolute bottom-0 -left-24 w-80 h-80 bg-accent2/10 rounded-full blur-3xl" data-speed="0.15"></div>
-  <div class="absolute inset-x-0 top-24 h-40 bg-gradient-to-b from-accent/10 to-transparent blur-3xl pointer-events-none"></div>
-
   <div class="max-w-6xl mx-auto px-5 w-full relative">
     <p id="hero-greet" class="font-mono text-accent text-sm mb-3 hidden"></p>
     <div class="hero-grid">
@@ -558,15 +575,15 @@
 
             <div id="term-output" class="mt-4 text-gray-300"></div>
             <div class="flex items-center gap-2 mt-2">
-              <span class="text-accent neon shrink-0">visitor@thanvish:~$</span>
+              <span class="text-accent neon shrink-0">thanvish@portfolio:~$</span>
               <input id="term-input" autocomplete="off" spellcheck="false" aria-label="terminal command input" placeholder="type 'help' ↵" />
             </div>
           </div>
         </div>
 
         <div id="hero-actions" class="mt-8 flex flex-wrap gap-3 font-mono text-sm">
-          <a href="#projects" class="magnetic px-5 py-2.5 rounded-md bg-accent text-bg font-bold hover:opacity-90 transition">./view_projects</a>
-          <a id="hero-resume" href="#" class="magnetic px-5 py-2.5 rounded-md border border-line hover:border-accent/50 hover:text-accent transition">↓ download_resume</a>
+          <a href="#projects" class="magnetic px-5 py-2.5 rounded-md bg-accent text-bg font-bold hover:opacity-90 transition">view_flagship_work</a>
+          <a id="hero-github" href="#" target="_blank" rel="noopener" class="magnetic px-5 py-2.5 rounded-md border border-line hover:border-accent2/70 hover:text-accent2 transition">github_profile ↗</a>
         </div>
         <div id="hero-socials" class="mt-6 flex flex-wrap gap-5 font-mono text-sm text-muted"></div>
 
@@ -585,6 +602,25 @@
         </div>
 
       </div>
+      <aside class="hero-proof" aria-label="Featured project: Relay Flags">
+        <div class="proof-kicker">
+          <span>Featured system / 01</span>
+          <span class="proof-live">public on GitHub</span>
+        </div>
+        <h2 class="proof-title">Relay Flags</h2>
+        <p class="proof-desc">A deterministic feature-flag engine built for backend services: typed rules, reusable segments, stable percentage rollouts, and structured evaluation reasons.</p>
+        <div class="proof-flow" aria-label="Relay Flags evaluation flow">
+          <div class="proof-flow-row"><span class="proof-flow-node">01</span><span>Subject + attributes</span></div>
+          <div class="proof-flow-row"><span class="proof-flow-node">02</span><span>Rules + segments</span></div>
+          <div class="proof-flow-row"><span class="proof-flow-node">03</span><span>Deterministic evaluation</span></div>
+        </div>
+        <div class="proof-stats">
+          <div class="proof-stat"><b>10</b><span>tests passing</span></div>
+          <div class="proof-stat"><b>3</b><span>interfaces</span></div>
+          <div class="proof-stat"><b>0</b><span>hidden I/O</span></div>
+        </div>
+        <a class="proof-link" href="https://github.com/thanvish21/relay-flags" target="_blank" rel="noopener">inspect the repository ↗</a>
+      </aside>
     </div>
   </div>
 </section>
@@ -678,7 +714,7 @@
 <script>
 const DATA = {
   name:    "M V Thanvish Reddy",
-  role:    "Software Developer · Backend & Developer Tools",
+  role:    "Backend Developer · Tooling",
   taglines: [
     "building reliable developer tools and backend systems.",
     "shipping tested projects and learning in public.",
@@ -788,7 +824,7 @@ const DATA = {
   // ---- hero ----
   $("hero-name").textContent = DATA.name;
   $("hero-role").textContent = DATA.role;
-  $("hero-resume").href = DATA.resumeUrl;
+  $("hero-github").href = DATA.socials.find((social) => social.label === "GitHub")?.url || "https://github.com/thanvish21";
   $("footer-name").textContent = DATA.name;
   $("footer-year").textContent = "2026";
   $("hero-socials").innerHTML = DATA.socials.map(s =>
@@ -887,28 +923,8 @@ const DATA = {
   }, { threshold: 0.45, rootMargin: "-12% 0px -35% 0px" });
   document.querySelectorAll("main section[id]").forEach((section) => sectionState.observe(section));
 
-  // ---- parallax blobs on scroll (only when GSAP isn't driving them) ----
-  if (!hasGSAP && !prefersReduced) {
-    const blobs = document.querySelectorAll(".float-blob");
-    const onScroll = () => {
-      const top = document.documentElement.scrollTop;
-      blobs.forEach(b => { b.style.transform = `translateY(${top * parseFloat(b.dataset.speed || "0.2")}px)`; });
-    };
-    addEventListener("scroll", onScroll, { passive:true });
-    onScroll();
-  }
-
-  // ---- typing taglines ----
-  const typeEl = $("hero-typed"), lines = DATA.taglines;
-  let li=0, ci=0, del=false;
-  (function tick(){
-    const line = lines[li];
-    typeEl.textContent = del ? line.slice(0,ci--) : line.slice(0,ci++);
-    let d = del?35:70;
-    if (!del && ci>line.length){ del=true; d=1600; }
-    else if (del && ci<0){ del=false; li=(li+1)%lines.length; ci=0; d=300; }
-    setTimeout(tick,d);
-  })();
+  // Keep the first viewport stable and immediately readable.
+  $("hero-typed").textContent = DATA.taglines[0];
 
   // ---- THEME SWITCHER (macOS → Windows → Paper) ----
   const THEMES = [
@@ -1045,7 +1061,7 @@ const DATA = {
     gsap.registerPlugin(ScrollTrigger);
     ScrollTrigger.defaults({ fastScrollEnd: true });
 
-    const splitTargets = ["#hero-name", "#hero-role", "#about h3", "#skills h3", "#projects h3", "#education h3", "#interests h3", "#contact h3"];
+    const splitTargets = ["#about h3", "#skills h3", "#projects h3", "#education h3", "#interests h3", "#contact h3"];
     if (hasSplitType) {
       splitTargets.forEach((sel) => {
         const el = document.querySelector(sel);
@@ -1076,30 +1092,11 @@ const DATA = {
       });
     }
 
-    gsap.set("#hero-terminal", { opacity: 0, y: 34, scale: 0.975, filter: "blur(12px)" });
-    gsap.set("#hero-actions > *", { opacity: 0, y: 24, scale: 0.96, filter: "blur(10px)" });
-    gsap.set("#hero-socials a", { opacity: 0, y: 18, filter: "blur(8px)" });
-    gsap.set(".scroll-hint", { opacity: 0, y: 16 });
-
-    const playHero = () => {
-      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-      tl.to("#hero-terminal", { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", duration: 1.15 })
-        .to("#hero-actions > *", { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", duration: 0.8, stagger: 0.08 }, "-=0.55")
-        .to("#hero-socials a", { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.75, stagger: 0.05 }, "-=0.45")
-        .to(".scroll-hint", { opacity: 1, y: 0, duration: 0.7 }, "-=0.35");
-    };
-    requestAnimationFrame(playHero);
+    gsap.set("#hero-terminal, #hero-actions > *, #hero-socials a, .scroll-hint", { opacity: 1, y: 0, scale: 1, filter: "none" });
 
     gsap.to("#hero-terminal", {
       y: -18,
       scrollTrigger: { trigger: "#home", start: "top top", end: "bottom top", scrub: 1.2 }
-    });
-    gsap.to(".float-blob", {
-      yPercent: -10,
-      xPercent: 4,
-      stagger: 0.18,
-      ease: "none",
-      scrollTrigger: { trigger: "#home", start: "top top", end: "bottom top", scrub: 1.1 }
     });
     gsap.to("#aurora", {
       rotate: 6,
@@ -1387,7 +1384,7 @@ const DATA = {
   };
 
   async function runCommand(raw) {
-    println(`<span class="text-accent neon">visitor@thanvish:~$</span> ${escapeHtml(raw)}`);
+    println(`<span class="text-accent neon">thanvish@portfolio:~$</span> ${escapeHtml(raw)}`);
     const cmd = raw.trim(); if (!cmd) return;
     const name = cmd.split(/\s+/)[0].toLowerCase();
     const fn = COMMANDS[name];

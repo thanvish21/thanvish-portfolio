@@ -337,48 +337,6 @@
   html.win .chrome-mac { display:none; }
   html.win .chrome-win { display:flex; }
 
-  /* ── MATRIX INTRO ──────────────────────────────────────────────── */
-  #intro { position:fixed; inset:0; z-index:100; background:#000; transition:opacity .8s ease; overflow:hidden; }
-  #intro.hide { opacity:0; pointer-events:none; }
-  #matrix { position:absolute; inset:0; }
-  #intro::before {
-    content:""; position:absolute; inset:-20%;
-    background:
-      radial-gradient(circle at 50% 40%, rgba(57,255,20,.2), transparent 28%),
-      radial-gradient(circle at 70% 55%, rgba(57,255,20,.08), transparent 24%);
-    filter:blur(30px);
-    animation:intro-breathe 4.5s ease-in-out infinite alternate;
-  }
-  @keyframes intro-breathe {
-    from { transform:scale(1) translate3d(0,0,0); opacity:.8; }
-    to { transform:scale(1.08) translate3d(0,-1.5%,0); opacity:1; }
-  }
-  #intro-box {
-    position:relative; z-index:2; max-width:480px; margin:0 auto; top:50%; transform:translateY(-50%);
-    background:rgba(0,0,0,.65); border:1px solid #0f0; border-radius:12px; padding:28px;
-    box-shadow:0 0 40px -8px #0f06; backdrop-filter:blur(10px);
-  }
-  #intro-box, #intro-box * { font-family:'JetBrains Mono',monospace; color:#39ff14; }
-  #intro-percent { font-size:clamp(2rem, 6vw, 4rem); font-weight:700; line-height:1; margin-bottom:12px; text-shadow:0 0 24px rgba(57,255,20,.35); }
-  #intro-meter {
-    width:100%; height:7px; border-radius:999px; overflow:hidden; margin:0 0 16px;
-    background:rgba(57,255,20,.1); border:1px solid rgba(57,255,20,.2);
-  }
-  #intro-meter-fill {
-    width:0%; height:100%;
-    background:linear-gradient(90deg, rgba(57,255,20,.5), rgba(57,255,20,1));
-  }
-  #intro-box input {
-    width:100%; background:#000; border:1px solid #0f05; border-radius:6px;
-    padding:8px 10px; margin-top:6px; outline:none; caret-color:#39ff14;
-  }
-  #intro-box input:focus { border-color:#39ff14; outline:2px solid #39ff1430; outline-offset:2px; }
-  #intro-box button {
-    margin-top:18px; width:100%; padding:10px; border:1px solid #39ff14; border-radius:6px;
-    background:#39ff1418; cursor:pointer; font-weight:700; letter-spacing:.05em; transition:.2s;
-  }
-  #intro-box button:hover { background:#39ff1430; }
-  #intro-skip { position:absolute; bottom:20px; right:24px; z-index:2; color:#0f08; font-family:monospace; font-size:12px; cursor:pointer; }
   #section-dots {
     position:fixed; right:18px; top:50%; transform:translateY(-50%); z-index:55;
     display:flex; flex-direction:column; gap:12px;
@@ -544,26 +502,6 @@
 <div id="crt"></div>
 <canvas id="matrix-fx"></canvas>
 <div id="proj-modal"></div>
-
-<!-- ░░░░ MATRIX INTRO OVERLAY ░░░░ -->
-<div id="intro">
-  <canvas id="matrix"></canvas>
-  <div id="intro-box">
-    <div id="intro-percent">00%</div>
-    <div id="intro-meter"><div id="intro-meter-fill"></div></div>
-    <p id="intro-boot" class="text-sm"></p>
-    <form id="intro-form" class="hidden mt-2 text-sm">
-      <label>&gt; enter your name:
-        <input id="visitor-name" autocomplete="off" placeholder="guest" />
-      </label>
-      <label class="block mt-4">&gt; purpose of visit:
-        <input id="visitor-purpose" autocomplete="off" placeholder="just exploring" />
-      </label>
-      <button type="submit">[ ENTER THE MATRIX ]</button>
-    </form>
-  </div>
-  <span id="intro-skip">skip &gt;&gt;</span>
-</div>
 
 <!-- ░░░░ NAVBAR ░░░░ -->
 <header class="fixed top-0 inset-x-0 z-50 backdrop-blur-md bg-bg/70 border-b border-line">
@@ -740,11 +678,11 @@
 <script>
 const DATA = {
   name:    "M V Thanvish Reddy",
-  role:    "B.Tech Student · Aspiring Software Developer",
+  role:    "Software Developer · Backend & Developer Tools",
   taglines: [
-    "building cool things with code.",
-    "learning by shipping projects.",
-    "gamer, reader & curious mind.",
+    "building reliable developer tools and backend systems.",
+    "shipping tested projects and learning in public.",
+    "open to software engineering internships.",
   ],
   resumeUrl: "#",                       // ← link to your resume PDF later
 
@@ -754,14 +692,14 @@ const DATA = {
 
   about:
     "I'm a first-year B.Tech student from Kadapa, currently studying in Chennai. " +
-    "I love turning ideas into real, working software — web apps, small automations, " +
-    "and experimenting with AI. When I'm not coding, I'm gaming or reading. " +
-    "I'm early in my journey but learning fast, and I build in public.",
+    "I build practical software with a focus on developer tools, backend systems, and AI-assisted workflows. " +
+    "My projects combine clean interfaces, deterministic logic, and real verification through tests. " +
+    "I'm growing fast through hands-on work and am looking for software engineering internships.",
 
   facts: [
     ["location", "Kadapa / Chennai, India"],
-    ["learning", "DSA · Web Dev"],
-    ["focus",    "Projects + fundamentals"],
+    ["learning", "DSA · backend systems"],
+    ["focus",    "Developer tools · reliable software"],
     ["open_to",  "Internships"],
   ],
 
@@ -773,9 +711,9 @@ const DATA = {
   ],
 
   skills: [
-    { group: "Languages",  items: ["C", "Python", "Java", "JavaScript"] },
-    { group: "Web",        items: ["HTML", "CSS", "Tailwind", "React (learning)"] },
-    { group: "Tools",      items: ["Git & GitHub", "VS Code", "Linux", "Figma"] },
+    { group: "Languages",  items: ["TypeScript", "Python", "Java", "C"] },
+    { group: "Backend",    items: ["Node.js", "FastAPI", "HTTP APIs", "Docker"] },
+    { group: "Tools",      items: ["Git & GitHub", "Linux", "Claude Code", "Codex"] },
     { group: "CS Core",    items: ["Data Structures", "Algorithms", "OOP", "DBMS"] },
   ],
 
@@ -791,7 +729,7 @@ const DATA = {
     { title: "Claude Loop", desc: "Local developer productivity CLI that surfaces what to work on next across Git repositories and Claude Code activity.", tech: ["Python","CLI","Developer Tools"], live:"#", code:"https://github.com/thanvish21/claude-loop" },
     { title: "Fable Kit", desc: "Practical Claude Code power kit with reusable project guidance, hooks, skills, and workflow references.", tech: ["Shell","Claude Code","Automation"], live:"#", code:"https://github.com/thanvish21/fable-kit" },
     { title: "CLI Toolbox", desc: "Small, dependency-free command-line utilities for GitHub and AI-assisted development workflows.", tech: ["Python","CLI","Automation"], live:"#", code:"https://github.com/thanvish21/cli-toolbox" },
-    { title: "Personal Portfolio", desc: "Terminal-themed, animated portfolio with Matrix intro, theme switching, and interactive command-line.", tech: ["HTML","Tailwind","JavaScript"], live:"https://thanvish-portfolio.vercel.app/", code:"https://github.com/thanvish21/thanvish-portfolio" },
+    { title: "Personal Portfolio", desc: "Recruiter-focused developer portfolio with project case studies, theme switching, and an interactive command-line.", tech: ["HTML","Tailwind","JavaScript"], live:"https://thanvish-portfolio.vercel.app/", code:"https://github.com/thanvish21/thanvish-portfolio" },
   ],
 
   education: [
@@ -1004,99 +942,6 @@ const DATA = {
     window.open(`https://wa.me/${num}?text=${msg}`, "_blank");
   });
 
-  // ---- MATRIX INTRO ----
-  const intro = $("intro"), canvas = $("matrix"), ctx = canvas.getContext("2d");
-  const introPercent = $("intro-percent");
-  const introMeterFill = $("intro-meter-fill");
-  let cols, drops;
-  function sizeMatrix(){
-    canvas.width = innerWidth; canvas.height = innerHeight;
-    cols = Math.floor(canvas.width / 14);
-    drops = Array(cols).fill(1);
-  }
-  sizeMatrix();
-  const glyphs = "アイウエオカキクケコ01ABCDEF<>/$#*".split("");
-  let rainTimer = setInterval(() => {
-    ctx.fillStyle = "rgba(0,0,0,.08)"; ctx.fillRect(0,0,canvas.width,canvas.height);
-    ctx.fillStyle = "#39ff14"; ctx.font = "14px monospace";
-    drops.forEach((y,i) => {
-      ctx.fillText(glyphs[Math.floor(y*7 % glyphs.length)], i*14, y*14);
-      if (y*14 > canvas.height && Math.random() > 0.975) drops[i] = 0;
-      drops[i]++;
-    });
-  }, 50);
-  addEventListener("resize", sizeMatrix);
-
-  // boot sequence then ask details
-  const bootLines = ["> initializing system...", "> decrypting portfolio...", "> access granted ✓"];
-  const bootPercents = [22, 68, 100];
-  let bi = 0, bootTimer = null;
-  (function boot(){
-    const bootEl = $("intro-boot");
-    if (!bootEl) return;                       // intro removed mid-sequence → stop
-    if (bi < bootLines.length){
-      bootEl.textContent += bootLines[bi++] + "\n";
-      bootEl.style.whiteSpace = "pre-line";
-      const pct = bootPercents[Math.max(0, bi - 1)];
-      introPercent.textContent = String(pct).padStart(2, "0") + "%";
-      introMeterFill.style.width = pct + "%";
-      bootTimer = setTimeout(boot, 650);
-    } else {
-      $("intro-form").classList.remove("hidden");
-      $("visitor-name").focus();
-    }
-  })();
-
-  let entered = false;
-  function enterSite(){
-    if (entered) return;                       // guard against double skip/submit
-    entered = true;
-    clearInterval(rainTimer);
-    if (bootTimer) clearTimeout(bootTimer);
-    if (hasGSAP && !prefersReduced) {
-      gsap.timeline()
-        .to("#intro-box", {
-          opacity: 0,
-          y: -18,
-          scale: 0.985,
-          filter: "blur(12px)",
-          duration: 0.7,
-          ease: "power3.inOut"
-        })
-        .to("#matrix", {
-          opacity: 0,
-          scale: 1.04,
-          filter: "blur(12px)",
-          duration: 0.8,
-          ease: "power2.inOut"
-        }, 0)
-        .to("#intro", {
-          opacity: 0,
-          duration: 0.6,
-          ease: "power2.out",
-          onComplete: () => intro.remove()
-        }, 0.18);
-    } else {
-      intro.classList.add("hide");
-      setTimeout(() => intro.remove(), 800);
-    }
-    const name = ($("visitor-name") && $("visitor-name").value.trim()) || sessionStorage.getItem("visitorName");
-    if (name){
-      sessionStorage.setItem("visitorName", name);
-      $("hero-greet").textContent = `// welcome, ${name} 👋`;
-      $("hero-greet").classList.remove("hidden");
-    }
-    sessionStorage.setItem("introSeen", "1");
-  }
-  $("intro-form").addEventListener("submit", (e) => { e.preventDefault(); enterSite(); });
-  $("intro-skip").addEventListener("click", enterSite);
-
-  // skip intro if already seen this session
-  if (sessionStorage.getItem("introSeen")){ clearInterval(rainTimer); intro.remove();
-    const n = sessionStorage.getItem("visitorName");
-    if (n){ $("hero-greet").textContent = `// welcome back, ${n} 👋`; $("hero-greet").classList.remove("hidden"); }
-  }
-
   // ---- ANIMATED PARTICLE BACKGROUND (constellation) ----
   const bg = $("bgfx"), bx = bg.getContext("2d");
   let parts = [];
@@ -1243,11 +1088,7 @@ const DATA = {
         .to("#hero-socials a", { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.75, stagger: 0.05 }, "-=0.45")
         .to(".scroll-hint", { opacity: 1, y: 0, duration: 0.7 }, "-=0.35");
     };
-    if (sessionStorage.getItem("introSeen")) {
-      requestAnimationFrame(playHero);
-    } else {
-      setTimeout(playHero, 2500);
-    }
+    requestAnimationFrame(playHero);
 
     gsap.to("#hero-terminal", {
       y: -18,
@@ -1572,11 +1413,11 @@ const DATA = {
   out.addEventListener("click", () => cmdInput.focus());
 
   // ---- accessibility: keyboard-operable window controls + decorative canvases ----
-  document.querySelectorAll(".win-min, .win-max, .win-close, #intro-skip").forEach((el) => {
+  document.querySelectorAll(".win-min, .win-max, .win-close").forEach((el) => {
     el.setAttribute("role", "button"); el.setAttribute("tabindex", "0");
     el.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); el.click(); } });
   });
-  ["bgfx", "matrix", "matrix-fx", "crt", "aurora", "noise"].forEach((id) => { const el = $(id); if (el) el.setAttribute("aria-hidden", "true"); });
+  ["bgfx", "matrix-fx", "crt", "aurora", "noise"].forEach((id) => { const el = $(id); if (el) el.setAttribute("aria-hidden", "true"); });
 
   initPremiumMotion();
 })();

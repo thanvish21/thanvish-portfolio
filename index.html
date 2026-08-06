@@ -511,6 +511,45 @@
     background-image:linear-gradient(135deg, rgb(var(--accent)/.16), rgb(var(--accent2)/.12)); }
 
   @media (prefers-reduced-motion: reduce) { #crt::before, .status-dot { animation:none !important; } }
+
+  /* ── GRADIENT SECTION HEADINGS (dark theme) ───────────────────── */
+  html:not(.win):not(.paper) main section h3 {
+    background: linear-gradient(140deg, #ffffff 35%, rgb(var(--accent2) / .62));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  /* keep headings readable in light themes */
+  html.win main section h3, html.paper main section h3 {
+    -webkit-text-fill-color: unset;
+    background: none;
+  }
+
+  /* ── PREMIUM SKILL PILLS ──────────────────────────────────────── */
+  .skill-pill {
+    display:inline-block; padding:4px 13px; border-radius:100px;
+    background:rgb(var(--accent) / .07); border:1px solid rgb(var(--accent) / .18);
+    font-size:0.8rem; color:rgb(var(--fg));
+    font-family:'JetBrains Mono',monospace;
+    transition:background .22s ease, border-color .22s ease, color .22s ease, box-shadow .22s ease;
+  }
+  .skill-pill:hover {
+    background:rgb(var(--accent) / .16); border-color:rgb(var(--accent) / .45);
+    color:rgb(var(--accent)); box-shadow:0 0 12px -4px rgb(var(--accent) / .35);
+  }
+
+  /* ── BORDERLESS INTERESTS ROWS ────────────────────────────────── */
+  .interest-row {
+    display:flex; align-items:center; gap:16px; padding:14px 0;
+    border-bottom:1px solid rgb(var(--line) / .35);
+  }
+  .interest-row:last-child { border-bottom:none; }
+  .interest-icon-wrap {
+    width:44px; height:44px; display:flex; align-items:center; justify-content:center;
+    border-radius:10px; flex-shrink:0; background:rgb(var(--accent) / .08);
+    border:1px solid rgb(var(--line) / .5); transition:background .22s, border-color .22s;
+  }
+  .interest-row:hover .interest-icon-wrap { background:rgb(var(--accent) / .16); border-color:rgb(var(--accent) / .4); }
 </style>
 </head>
 
@@ -633,10 +672,9 @@
     <h3 class="text-3xl font-extrabold text-white mb-6">Who I am</h3>
     <div class="grid md:grid-cols-3 gap-8 items-start">
       <p id="about-text" class="md:col-span-2 text-gray-300 leading-relaxed text-lg"></p>
-      <div class="rounded-xl border border-line bg-panel p-5 font-mono text-sm space-y-2">
-        <p class="text-muted">const <span class="text-accent2">status</span> = {</p>
-        <div id="about-facts" class="pl-4 space-y-1"></div>
-        <p class="text-muted">}</p>
+      <div class="font-mono text-sm space-y-2 pl-4 border-l-2 border-accent/40 mt-2">
+        <p class="text-muted text-xs mb-3 tracking-widest uppercase">// status</p>
+        <div id="about-facts" class="space-y-1.5"></div>
       </div>
     </div>
   </section>
@@ -689,7 +727,7 @@
 
   <!-- ░░░░ EMERGENCY (whatsapp) — LAST ░░░░ -->
   <section id="emergency" class="pb-24 reveal section-shell">
-    <div class="rounded-xl border border-red-500/40 bg-panel p-6 sm:p-8">
+    <div class="border-l-4 border-red-500/50 pl-6 sm:pl-8">
       <h2 class="font-mono text-red-400 text-sm mb-2">// emergency</h2>
       <h3 class="text-2xl font-extrabold text-white mb-2">🆘 Reach me urgently</h3>
       <p class="text-gray-400 text-sm mb-5">Type a message and it'll open WhatsApp directly to my number.</p>
@@ -837,16 +875,16 @@ const DATA = {
 
   // ---- skills ----
   $("skills-grid").innerHTML = DATA.skills.map((c,i) => `
-    <div class="card-hover stagger-item rounded-xl border border-line bg-panel p-5" style="transition-delay:${i*90}ms">
+    <div class="card-hover stagger-item rounded-xl border border-transparent p-5" style="transition-delay:${i*90}ms">
       <p class="font-mono text-accent text-sm mb-3">${c.group}</p>
       <div class="flex flex-wrap gap-2">
-        ${c.items.map(i => `<span class="px-3 py-1 rounded-md bg-bg border border-line text-sm text-gray-300">${i}</span>`).join("")}
+        ${c.items.map(item => `<span class="skill-pill">${item}</span>`).join("")}
       </div>
     </div>`).join("");
 
   // ---- projects ----
   $("projects-grid").innerHTML = DATA.projects.map((p,i) => `
-    <div class="card-hover stagger-item rounded-xl border border-line bg-panel p-6 flex flex-col" style="transition-delay:${i*90}ms">
+    <div class="card-hover stagger-item rounded-xl border border-transparent p-6 flex flex-col" style="transition-delay:${i*90}ms">
       <div class="flex items-center justify-between mb-3">
         <span class="text-accent text-xl">▣</span>
         <div class="flex gap-3 font-mono text-xs text-muted">
@@ -875,21 +913,19 @@ const DATA = {
   // ---- interests ----
   $("games-grid").innerHTML = DATA.games.map((g,i) => {
     const badge = g.logo
-      ? `<img src="${g.logo}" alt="${g.name}" class="w-9 h-9 object-contain"
-              onerror="this.onerror=null;this.outerHTML='<span class=&quot;text-2xl&quot;>${g.icon}</span>'">`
-      : `<span class="text-2xl">${g.icon}</span>`;
+      ? `<img src="${g.logo}" alt="${g.name}" class="w-7 h-7 object-contain"
+              onerror="this.onerror=null;this.outerHTML='<span class=&quot;text-xl&quot;>${g.icon}</span>'">`
+      : `<span class="text-xl">${g.icon}</span>`;
     return `
-    <div class="card-hover stagger-item flex items-center gap-4 rounded-xl border border-line bg-panel p-4"
-         style="transition-delay:${i*90}ms">
-      <div class="w-12 h-12 flex items-center justify-center rounded-lg shrink-0"
-           style="background:${g.color}1f">${badge}</div>
-      <div><p class="font-bold text-white">${g.name}</p><p class="text-muted font-mono text-xs">${g.tag}</p></div>
+    <div class="interest-row stagger-item" style="transition-delay:${i*90}ms">
+      <div class="interest-icon-wrap" style="background:${g.color}18">${badge}</div>
+      <div><p class="font-bold text-white text-sm">${g.name}</p><p class="text-muted font-mono text-xs mt-0.5">${g.tag}</p></div>
     </div>`;
   }).join("");
   $("books-grid").innerHTML = DATA.books.map((b,i) => `
-    <div class="card-hover stagger-item flex items-center gap-4 rounded-xl border border-line bg-panel p-4" style="transition-delay:${i*90}ms">
-      <div class="w-12 h-12 flex items-center justify-center rounded-lg bg-accent2/10 shrink-0"><span class="text-2xl">📖</span></div>
-      <div><p class="font-bold text-white">${b.title}</p><p class="text-muted font-mono text-xs">${b.author}</p></div>
+    <div class="interest-row stagger-item" style="transition-delay:${i*90}ms">
+      <div class="interest-icon-wrap"><span class="text-xl">📖</span></div>
+      <div><p class="font-bold text-white text-sm">${b.title}</p><p class="text-muted font-mono text-xs mt-0.5">${b.author}</p></div>
     </div>`).join("");
 
   // ---- contact ----

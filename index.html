@@ -115,8 +115,9 @@
   .char, .word, .line { will-change: transform, opacity, filter; }
   .hero-grid { display:grid; grid-template-columns:minmax(0,1.08fr) minmax(320px,.82fr); gap:28px; align-items:stretch; }
   .hero-proof {
-    min-height:100%; padding:24px; border:1px solid rgb(var(--line)); border-radius:8px;
-    background:rgb(var(--panel) / .74); box-shadow:0 24px 64px -42px rgba(0,0,0,.9);
+    min-height:100%; padding:24px; border:1px solid rgb(var(--accent) / .14); border-radius:12px;
+    background:rgba(255,255,255,.022); backdrop-filter:blur(18px) saturate(140%);
+    box-shadow:0 0 0 1px rgb(var(--accent) / .05), 0 24px 64px -42px rgba(0,0,0,.85);
     font-family:'JetBrains Mono',monospace; display:flex; flex-direction:column;
   }
   .proof-kicker { display:flex; align-items:center; justify-content:space-between; gap:12px; font-size:11px; text-transform:uppercase; color:rgb(var(--muted)); }
@@ -481,8 +482,7 @@
   }
 
   /* ── METRICS DASHBOARD ─────────────────────────────────────────── */
-  .metric { border:1px solid rgb(var(--line)); background:rgb(var(--panel)/.55);
-    border-radius:12px; padding:11px 13px; backdrop-filter:blur(6px); }
+  .metric { padding:8px 6px; border-left:2px solid rgb(var(--accent) / .3); }
   .metric .k { font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:.1em;
     color:rgb(var(--muted)); text-transform:uppercase; }
   .metric .v { font-family:'JetBrains Mono',monospace; font-size:15px; color:rgb(var(--accent));
@@ -630,9 +630,9 @@
         <div id="metrics" class="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl"></div>
         <!-- fx toggles -->
         <div class="mt-4 flex flex-wrap gap-3 font-mono text-xs">
-          <button id="fx-matrix" class="fx-btn glitch px-3 py-1.5 rounded-md border border-line hover:border-accent/50 hover:text-accent transition">⛆ matrix_rain</button>
-          <button id="fx-sound"  class="fx-btn glitch px-3 py-1.5 rounded-md border border-line hover:border-accent/50 hover:text-accent transition">🔇 sound: off</button>
-          <button id="fx-crt"    class="fx-btn glitch px-3 py-1.5 rounded-md border border-line hover:border-accent/50 hover:text-accent transition">▤ crt: on</button>
+          <button id="fx-matrix" class="fx-btn glitch px-2 py-1 font-mono text-xs text-muted hover:text-accent transition underline-offset-4 hover:underline">⛆ matrix_rain</button>
+          <button id="fx-sound"  class="fx-btn glitch px-2 py-1 font-mono text-xs text-muted hover:text-accent transition underline-offset-4 hover:underline">🔇 sound: off</button>
+          <button id="fx-crt"    class="fx-btn glitch px-2 py-1 font-mono text-xs text-muted hover:text-accent transition underline-offset-4 hover:underline">▤ crt: on</button>
         </div>
 
         <div class="scroll-hint motion-safe">
